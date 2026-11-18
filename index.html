@@ -274,30 +274,6 @@
     letter-spacing:.1em;color:var(--gold);border:1px solid rgba(216,183,120,.5);padding:7px 14px;border-radius:2px;}
 
   /* ============ Q版合照 拼贴 ============ */
-  .qban{position:relative;z-index:2;width:100%;max-width:920px;margin-top:70px;}
-  .qban-h{font-family:var(--mono);font-size:12px;letter-spacing:.28em;color:var(--gold);
-    text-align:center;margin-bottom:28px;text-shadow:0 2px 12px rgba(0,0,0,.7);}
-  .qban-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px 18px;max-width:860px;margin:0 auto;}
-  .qban-foot{font-family:var(--serif);font-size:14px;color:#e9d3b3;text-align:center;margin-top:28px;
-    letter-spacing:.04em;opacity:.85;}
-  .qban-grid .frame{aspect-ratio:auto;border-width:9px;border-radius:3px;padding:0;background:#fff;
-    transform:rotate(var(--r,0deg));}
-  .qban-grid .frame:nth-child(1){--r:-2.6deg;}
-  .qban-grid .frame:nth-child(2){--r:1.7deg;}
-  .qban-grid .frame:nth-child(3){--r:-1.2deg;}
-  .qban-grid .frame:nth-child(4){--r:2.3deg;}
-  .qban-grid .frame:nth-child(5){--r:-1.9deg;}
-  .qban-grid .frame:nth-child(6){--r:2.0deg;}
-  .qban-grid .frame:nth-child(7){--r:-1.6deg;}
-  .qban-grid .frame:nth-child(8){--r:1.3deg;}
-  .qban-grid .frame:nth-child(9){--r:-2.2deg;}
-  .qban-grid .frame:nth-child(10){--r:1.8deg;}
-  .qban-grid .frame:nth-child(11){--r:-1.4deg;}
-  .qban-grid .frame img{width:100%;height:auto;display:block;object-fit:contain;background:#fff;}
-  .qban-grid .frame .cap{position:static;background:none;color:#3a2f2a;font-family:var(--serif);
-    font-size:13px;letter-spacing:.03em;padding:9px 8px 12px;text-align:center;text-shadow:none;line-height:1.4;}
-  .qban-grid .frame .filmno{display:none;}
-  .qban-grid .frame:hover{transform:rotate(var(--r,0deg)) translateY(-5px) scale(1.02);}
 
   /* ============ 隐藏彩蛋 ============ */
   #eggBtn{position:fixed;left:18px;bottom:18px;z-index:40;width:50px;height:50px;border-radius:50%;
@@ -444,7 +420,6 @@
     .cards{grid-template-columns:1fr;}
     .quests{grid-template-columns:1fr;}
     .album.lead,.album.trip,.exhibit{grid-template-columns:1fr;}
-    .qban-grid{grid-template-columns:repeat(2,1fr);gap:16px 12px;max-width:100%;}
     .ch-finale{padding-bottom:160px;}
     .archive-notes{grid-template-columns:1fr;}
     .frame.wide{aspect-ratio:4/5;}
