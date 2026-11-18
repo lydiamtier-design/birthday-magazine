@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>今天你挑 · 一张生日礼物单</title>
+<style>
+  /* ============ token — 与原生日网页同一系列，但换成"票券"语言 ============ */
+  :root{
+    --wine:#641F2B;
+    --wine-deep:#4A141D;
+    --plum:#2A1018;
+    --cream:#F4EBDD;
+    --paper:#FBF5E9;
+    --film:#211C1A;
+    --gold:#D8B778;
+    --amber:#C88B43;
+    --vermilion:#B93835;
+    --ink:#2A2320;
+    --muted:#907E70;
+    --serif:"Source Han Serif SC","Songti SC","STSong","SimSun",serif;
+    --sans:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Heiti SC",sans-serif;
+    --mono:"SF Mono","Menlo","Consolas","Courier New",monospace;
+    --pad:clamp(20px,5vw,64px);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    min-height:100vh;
+    font-family:var(--sans);
+    color:var(--cream);
+    background:
+      radial-gradient(90% 55% at 50% -8%,rgba(200,139,67,.18) 0%,transparent 62%),
+      radial-gradient(130% 90% at 50% 0%,var(--wine-deep) 0%,var(--plum) 46%,var(--film) 100%);
+    background-attachment:fixed;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  /* 细星点：几处定点微光，不做满屏闪烁 */
+  body::before{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
+    background-image:
+      radial-gradient(1.5px 1.5px at 12% 18%,rgba(244,235,221,.7) 50%,transparent 51%),
+      radial-gradient(1px 1px at 78% 12%,rgba(216,183,120,.7) 50%,transparent 51%),
+      radial-gradient(1.5px 1.5px at 88% 34%,rgba(244,235,221,.5) 50%,transparent 51%),
+      radial-gradient(1px 1px at 26% 62%,rgba(216,183,120,.55) 50%,transparent 51%),
+      radial-gradient(1.5px 1.5px at 62% 78%,rgba(244,235,221,.4) 50%,transparent 51%),
+      radial-gradient(1px 1px at 8% 86%,rgba(216,183,120,.5) 50%,transparent 51%);
+  }
+  ::selection{background:var(--amber);color:var(--film);}
+  button,input{font-family:inherit;}
+  :focus-visible{outline:2px solid var(--gold);outline-offset:4px;}
+
+  .wrap{position:relative;z-index:1;max-width:1120px;margin:0 auto;padding:clamp(48px,9vh,96px) var(--pad) 72px;}
+
+  /* ---------- 抬头 ---------- */
+  header{text-align:center;margin-bottom:clamp(42px,7vh,72px);}
+  .eyebrow{
+    font-family:var(--mono);font-size:11px;letter-spacing:.34em;text-transform:uppercase;
+    color:var(--gold);opacity:.9;
+    animation:rise .8s both;
+  }
+  .eyebrow .cn{font-family:var(--sans);letter-spacing:.18em;}
+  h1{
+    font-family:var(--serif);font-weight:900;line-height:1.08;
+    font-size:clamp(52px,12vw,124px);letter-spacing:.04em;
+    color:var(--cream);
+    text-shadow:0 2px 34px rgba(0,0,0,.45),0 0 60px rgba(216,183,120,.18);
+    margin:18px 0 16px;
+    animation:rise .85s .08s both;
+  }
+  h1 em{font-style:normal;color:var(--gold);}
+  .lead{
+    font-size:clamp(15px,2.2vw,18px);color:#e6d3bc;letter-spacing:.02em;
+    animation:rise .85s .16s both;
+  }
+  .rule{
+    width:64px;height:1px;margin:30px auto 0;
+    background:linear-gradient(90deg,transparent,var(--gold),transparent);
+    animation:rise .85s .22s both;
+  }
+
+  /* ---------- 票券网格 ---------- */
+  .tickets{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(16px,2.4vw,26px);
+    align-items:stretch;
+  }
+  .ticket{
+    position:relative;display:flex;flex-direction:column;
+    min-height:clamp(310px,42vh,390px);
+    padding:30px 28px 26px;
+    color:var(--ink);text-align:left;
+    background:var(--paper);
+    border:none;cursor:pointer;
+    border-radius:3px;
+    /* 左右撕票缺口 */
+    -webkit-mask-image:
+      radial-gradient(circle 12px at 0 50%,transparent 98%,#000 100%),
+      radial-gradient(circle 12px at 100% 50%,transparent 98%,#000 100%);
+    -webkit-mask-size:51% 100%,51% 100%;
+    -webkit-mask-position:left center,right center;
+    -webkit-mask-repeat:no-repeat;
+    mask-image:
+      radial-gradient(circle 12px at 0 50%,transparent 98%,#000 100%),
+      radial-gradient(circle 12px at 100% 50%,transparent 98%,#000 100%);
+    mask-size:51% 100%,51% 100%;
+    mask-position:left center,right center;
+    mask-repeat:no-repeat;
+    box-shadow:0 18px 40px rgba(0,0,0,.3);
+    transition:transform .28s cubic-bezier(.2,.8,.2,1),box-shadow .28s ease,filter .3s ease,opacity .3s ease;
+    animation:rise .7s both;
+  }
+  .ticket:nth-child(1){animation-delay:.30s;}
+  .ticket:nth-child(2){animation-delay:.38s;}
+  .ticket:nth-child(3){animation-delay:.46s;}
+  .ticket.wide{animation-delay:.54s;}
+  .ticket:hover{transform:translateY(-8px) rotate(-.5deg);box-shadow:0 26px 54px rgba(0,0,0,.42);}
+  .ticket:active{transform:translateY(-2px);}
+  /* 选中后其余票券退到背景 */
+  .tickets.has-choice .ticket:not(.chosen){filter:saturate(.42) brightness(.82);opacity:.6;}
+  .tickets.has-choice .ticket:not(.chosen):hover{opacity:.85;filter:saturate(.7) brightness(.9);}
+
+  /* 票券顶部：编号 + 骑缝标签 */
+  .ticket-top{display:flex;align-items:baseline;justify-content:space-between;gap:10px;
+    padding-bottom:16px;border-bottom:1px dashed rgba(42,35,32,.22);}
+  .opt{font-family:var(--mono);font-size:11px;letter-spacing:.26em;color:var(--wine);}
+  .serial{font-family:var(--mono);font-size:10px;letter-spacing:.16em;color:var(--muted);}
+  .ticket-letter{
+    font-family:var(--serif);font-weight:900;font-size:clamp(72px,10vw,108px);
+    line-height:.9;color:var(--wine);opacity:.16;margin:14px 0 2px;
+  }
+  .gift{
+    font-family:var(--serif);font-weight:900;font-size:clamp(28px,4.2vw,40px);
+    line-height:1.2;letter-spacing:.03em;color:var(--ink);
+  }
+  .desc{margin-top:12px;font-size:14px;line-height:1.8;color:#5C4E45;max-width:26ch;}
+  .ticket-foot{margin-top:auto;padding-top:20px;display:flex;align-items:center;gap:8px;
+    font-family:var(--mono);font-size:10px;letter-spacing:.2em;color:var(--muted);}
+  .ticket-foot .dot{width:5px;height:5px;border-radius:50%;background:var(--amber);}
+
+  /* 选中印章：一次性、略微歪斜的手工盖章感 */
+  .stamp{
+    position:absolute;right:20px;bottom:18px;
+    width:104px;height:104px;border-radius:50%;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    border:3px double var(--vermilion);color:var(--vermilion);
+    transform:rotate(-14deg) scale(1.7);opacity:0;pointer-events:none;
+    background:rgba(251,245,233,.55);
+  }
+  .stamp b{font-family:var(--serif);font-size:25px;font-weight:900;letter-spacing:.12em;line-height:1;}
+  .stamp span{font-family:var(--mono);font-size:8px;letter-spacing:.3em;margin-top:6px;}
+  .ticket.chosen{background:#FFF9EE;box-shadow:0 22px 56px rgba(216,183,120,.28),0 18px 40px rgba(0,0,0,.34);}
+  .ticket.chosen .ticket-letter{opacity:.26;}
+  .ticket.chosen .stamp{animation:stampIn .42s cubic-bezier(.2,1.5,.4,1) forwards;}
+
+  /* ---------- D：自己填 ---------- */
+  .wide{grid-column:1/-1;min-height:auto;flex-direction:row;align-items:center;gap:24px;flex-wrap:wrap;}
+  .wide .left{flex:1 1 260px;}
+  .wide .ticket-letter{margin:10px 0 2px;}
+  .wide .desc{max-width:none;}
+  .fillbox{flex:1 1 300px;display:flex;gap:10px;align-items:center;position:relative;z-index:2;}
+  .fillbox input{
+    flex:1;min-width:0;padding:14px 16px;border:1px solid rgba(42,35,32,.25);
+    border-radius:2px;background:#fffdf8;color:var(--ink);font-size:15px;
+    transition:border-color .2s ease;
+  }
+  .fillbox input:focus{border-color:var(--wine);outline:none;}
+  .fillbox input::placeholder{color:#A99A8D;}
+  .fillbox button{
+    padding:14px 20px;white-space:nowrap;background:var(--wine);color:var(--cream);
+    border-radius:2px;font-size:14px;letter-spacing:.04em;transition:background .2s ease;
+  }
+  .fillbox button:hover{background:var(--wine-deep);}
+  .wide .stamp{right:28px;bottom:50%;transform:rotate(-14deg) translateY(50%) scale(1.7);}
+  .wide.chosen .stamp{animation:stampInWide .42s cubic-bezier(.2,1.5,.4,1) forwards;}
+
+  /* ---------- 结果 ---------- */
+  .result{
+    margin-top:clamp(36px,6vh,60px);text-align:center;min-height:118px;
+    padding:0 var(--pad);
+  }
+  .result .kicker{font-family:var(--mono);font-size:10px;letter-spacing:.34em;color:var(--gold);opacity:0;transition:opacity .4s ease;}
+  .result .say{
+    font-family:var(--serif);font-weight:900;
+    font-size:clamp(22px,4vw,38px);line-height:1.5;letter-spacing:.03em;color:var(--cream);
+    margin-top:12px;opacity:0;transform:translateY(10px);
+    transition:opacity .5s ease .06s,transform .5s ease .06s;
+  }
+  .result .say em{font-style:normal;color:var(--gold);}
+  .result.show .kicker,.result.show .say{opacity:1;transform:none;}
+  .reset{
+    margin-top:20px;font-family:var(--mono);font-size:11px;letter-spacing:.2em;
+    color:#cdb99e;border-bottom:1px solid rgba(205,185,158,.4);padding-bottom:3px;
+    background:none;border:none;cursor:pointer;opacity:0;transition:opacity .4s ease,color .2s ease;
+  }
+  .reset:hover{color:var(--gold);}
+  .result.show .reset{opacity:.85;}
+
+  .sign{
+    margin-top:clamp(40px,7vh,72px);text-align:center;
+    font-family:var(--serif);font-size:15px;letter-spacing:.14em;color:#b9a68d;
+  }
+  .sign::before{content:"";display:block;width:1px;height:34px;margin:0 auto 20px;
+    background:linear-gradient(180deg,transparent,rgba(216,183,120,.6));}
+
+  @keyframes rise{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:none;}}
+  @keyframes stampIn{to{transform:rotate(-14deg) scale(1);opacity:.9;}}
+  @keyframes stampInWide{to{transform:rotate(-14deg) translateY(50%) scale(1);opacity:.9;}}
+
+  @media(max-width:780px){
+    .tickets{grid-template-columns:1fr;}
+    .ticket{min-height:270px;}
+    .wide{flex-direction:column;align-items:stretch;}
+    .wide .stamp{right:20px;bottom:16px;transform:rotate(-14deg) scale(1.7);}
+    .wide.chosen .stamp{animation:stampIn .42s cubic-bezier(.2,1.5,.4,1) forwards;}
+    .fillbox{flex-direction:column;align-items:stretch;}
+    .fillbox button{width:100%;}
+  }
+  @media(prefers-reduced-motion:reduce){
+    *{animation:none !important;transition:none !important;}
+    /* 动画被禁用时，带 fill-mode:both 的元素会停在透明首帧——显式归位 */
+    .eyebrow,h1,.lead,.rule,.ticket{opacity:1 !important;transform:none !important;}
+    /* 印章默认隐藏，仅选中的那张亮出 */
+    .stamp{transform:rotate(-14deg) scale(1);opacity:0;}
+    .ticket.chosen .stamp{opacity:.9;}
+    .wide .stamp{transform:rotate(-14deg) translateY(50%) scale(1);opacity:0;}
+    .wide.chosen .stamp{opacity:.9;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">BIRTHDAY · <span class="cn">一张礼物单</span></div>
+    <h1>今天<em>你挑</em>。</h1>
+    <p class="lead">三张现成的，一张空白的。选中哪张，我立刻去办。</p>
+    <div class="rule"></div>
+  </header>
+
+  <main>
+    <section class="tickets" id="tickets" aria-label="生日礼物选项">
+      <button class="ticket" data-gift="A" aria-label="选项 A：一束花">
+        <div class="ticket-top"><span class="opt">OPTION A</span><span class="serial">NO. 001</span></div>
+        <div class="ticket-letter">A</div>
+        <div class="gift">一束花</div>
+        <p class="desc">不用你夸它好看。抱回家，找个杯子插上就行。</p>
+        <div class="ticket-foot"><span class="dot"></span>FLORA · 送到手上</div>
+        <div class="stamp" aria-hidden="true"><b>已选</b><span>CHOSEN</span></div>
+      </button>
+
+      <button class="ticket" data-gift="B" aria-label="选项 B：一个蛋糕">
+        <div class="ticket-top"><span class="opt">OPTION B</span><span class="serial">NO. 002</span></div>
+        <div class="ticket-letter">B</div>
+        <div class="gift">一个蛋糕</div>
+        <p class="desc">蜡烛我来点，愿望你自己许——不许说出声。</p>
+        <div class="ticket-foot"><span class="dot"></span>CAKE · 甜的那份</div>
+        <div class="stamp" aria-hidden="true"><b>已选</b><span>CHOSEN</span></div>
+      </button>
+
+      <button class="ticket" data-gift="C" aria-label="选项 C：见面那顿饭">
+        <div class="ticket-top"><span class="opt">OPTION C</span><span class="serial">NO. 003</span></div>
+        <div class="ticket-letter">C</div>
+        <div class="gift">见面那顿饭</div>
+        <p class="desc">等见面，我请。你负责点菜，我负责不跟你抢最后一块肉。</p>
+        <div class="ticket-foot"><span class="dot"></span>DINNER · 择日兑现</div>
+        <div class="stamp" aria-hidden="true"><b>已选</b><span>CHOSEN</span></div>
+      </button>
+
+      <div class="ticket wide" id="optD" data-gift="D" role="button" tabindex="0" aria-label="选项 D：自己补充其他礼物">
+        <div class="left">
+          <div class="ticket-top" style="max-width:320px"><span class="opt">OPTION D · 空白票</span><span class="serial">NO. 004</span></div>
+          <div class="ticket-letter">D</div>
+          <div class="gift">别的都行</div>
+          <p class="desc">上面没写到的，你自己填。写什么，我都认。</p>
+        </div>
+        <div class="fillbox" id="fillbox">
+          <input type="text" id="customGift" maxlength="40" placeholder="我想要……（写在这儿）" aria-label="填写你想要的礼物">
+          <button type="button" id="customBtn">就选这个</button>
+        </div>
+        <div class="stamp" aria-hidden="true"><b>已选</b><span>CHOSEN</span></div>
+      </div>
+    </section>
+
+    <section class="result" id="result" aria-live="polite">
+      <div class="kicker">GIFT CONFIRMED · 记下了</div>
+      <div class="say" id="say"></div>
+      <button class="reset" id="reset">重新选 ↺</button>
+    </section>
+  </main>
+
+  <div class="sign">祝你生日快乐。</div>
+  <div style="text-align:center;margin-top:26px;">
+    <a href="./index.html" style="font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:#b9a68d;text-decoration:none;border-bottom:1px solid rgba(185,166,141,.4);padding-bottom:3px;">← 回到生日杂志</a>
+  </div>
+</div>
+
+<script>
+(function(){
+  var tickets=document.getElementById('tickets');
+  var result=document.getElementById('result');
+  var say=document.getElementById('say');
+  var input=document.getElementById('customGift');
+  var customBtn=document.getElementById('customBtn');
+  var optD=document.getElementById('optD');
+
+  var lines={
+    A:'花会谢，今天不会。<em>生日快乐。</em>',
+    B:'愿望要小声许，才灵。<em>生日快乐。</em>',
+    C:'见面那天，别让我等太久。<em>生日快乐。</em>'
+  };
+
+  function choose(key,custom){
+    tickets.classList.add('has-choice');
+    Array.prototype.forEach.call(tickets.querySelectorAll('.ticket'),function(t){
+      t.classList.toggle('chosen',t.getAttribute('data-gift')===key);
+    });
+    if(key==='D'){
+      var what=(custom||input.value||'那份没写出来的礼物').trim();
+      say.innerHTML='「'+escapeHtml(what)+'」记下了。<br><em>生日快乐。</em>';
+    }else{
+      say.innerHTML=lines[key];
+    }
+    result.classList.add('show');
+  }
+  function escapeHtml(s){return s.replace(/[&<>"']/g,function(c){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+
+  Array.prototype.forEach.call(tickets.querySelectorAll('.ticket:not(.wide)'),function(t){
+    t.addEventListener('click',function(){choose(t.getAttribute('data-gift'));});
+  });
+
+  function pickCustom(){choose('D',input.value);}
+  customBtn.addEventListener('click',pickCustom);
+  input.addEventListener('keydown',function(e){if(e.key==='Enter')pickCustom();});
+  optD.addEventListener('keydown',function(e){
+    if(e.target===optD&&(e.key==='Enter'||e.key===' ')){e.preventDefault();input.focus();}
+  });
+  document.getElementById('reset').addEventListener('click',function(){
+    tickets.classList.remove('has-choice');
+    Array.prototype.forEach.call(tickets.querySelectorAll('.ticket'),function(t){t.classList.remove('chosen');});
+    result.classList.remove('show');
+    say.innerHTML='';
+  });
+})();
+</script>
+</body>
+</html>
